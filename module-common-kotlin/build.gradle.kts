@@ -4,7 +4,6 @@ plugins {
     id("io.spring.dependency-management")
     kotlin("plugin.jpa")
 }
-java.sourceCompatibility = JavaVersion.VERSION_17
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
