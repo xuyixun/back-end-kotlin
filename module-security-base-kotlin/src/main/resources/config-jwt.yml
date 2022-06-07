@@ -1,0 +1,4 @@
+token_header: Authorization
+token_prefix: "Bearer "
+secret: LpeeKOT6ptbybpRLYuUQT8cFfFiNs67B9Gfegkqsf3IDULNP
+expiration_second: 2592000

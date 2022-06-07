@@ -4,6 +4,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE" apply false
     id("org.jetbrains.kotlin.jvm") version kotlinVersion apply false
     kotlin("plugin.spring") version kotlinVersion apply false
+    kotlin("plugin.jpa") version kotlinVersion apply false
 }
 subprojects {
     repositories {
