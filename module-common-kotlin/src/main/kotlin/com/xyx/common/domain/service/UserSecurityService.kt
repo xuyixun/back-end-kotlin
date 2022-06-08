@@ -5,8 +5,5 @@ import com.xyx.common.domain.repository.UserSecurityRepository
 import org.springframework.stereotype.Service
 
 @Service
-class UserSecurityService(private val repository: UserSecurityRepository) {
-    fun jpaSave(s: UserSecurity) {
-        repository.save(s)
-    }
-}
+class UserSecurityService(repository: UserSecurityRepository) :
+    CommonService<UserSecurity, String>(repository)

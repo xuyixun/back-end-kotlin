@@ -12,7 +12,7 @@ open class CommonPo {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    var id: String = ""
+    var uuid: String = ""
 
     @CreationTimestamp
     var createTime: LocalDateTime = LocalDateTime.now()

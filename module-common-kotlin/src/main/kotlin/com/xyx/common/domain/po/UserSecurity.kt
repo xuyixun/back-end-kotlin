@@ -11,4 +11,8 @@ data class UserSecurity(
     val role: String,
     @ElementCollection val roles: Set<String> = setOf(role),
     val disabled: Boolean = false,
-) : CommonPo()
+) : CommonPo() {
+    fun uuid(uuidS: String) {
+        uuid = uuidS
+    }
+}
