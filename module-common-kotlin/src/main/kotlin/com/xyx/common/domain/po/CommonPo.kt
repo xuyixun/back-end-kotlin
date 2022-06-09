@@ -8,12 +8,11 @@ import javax.persistence.Id
 import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
-open class CommonPo {
+open class CommonPo(
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    var uuid: String = ""
-
+    var uuid: String = "",
     @CreationTimestamp
-    var createTime: LocalDateTime = LocalDateTime.now()
-}
+    val createTime: LocalDateTime = LocalDateTime.now()
+)
