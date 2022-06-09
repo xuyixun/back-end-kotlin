@@ -58,7 +58,7 @@ open class SecurityConfig(private val authorizationFilter: AuthorizationFilter, 
                 .passwordEncoder(bCryptPasswordEncoder()::encode)
                 .username("user")
                 .password("password456")
-                .roles("admin")
+                .authorities("admin")
                 .build()
         )
 
