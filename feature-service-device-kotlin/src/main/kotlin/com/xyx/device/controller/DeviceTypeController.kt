@@ -11,8 +11,8 @@ import com.xyx.device.domain.dto.DeviceTypeSaveDto
 import com.xyx.device.domain.dto.DeviceTypeSearchDto
 import com.xyx.device.domain.dto.DeviceTypeUpdateDto
 import com.xyx.device.domain.po.DeviceType
-import com.xyx.device.domain.repository.DeviceTypeRepository
-import com.xyx.device.domain.repository.query
+import com.xyx.device.domain.repository.jpa.DeviceTypeRepository
+import com.xyx.device.domain.repository.jpa.query
 import com.xyx.device.domain.vo.DeviceTypeListVo
 import io.swagger.annotations.Api
 import org.springframework.web.bind.annotation.*

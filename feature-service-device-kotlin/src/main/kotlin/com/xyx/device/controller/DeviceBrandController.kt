@@ -11,8 +11,8 @@ import com.xyx.device.domain.dto.DeviceBrandSaveDto
 import com.xyx.device.domain.dto.DeviceBrandSearchDto
 import com.xyx.device.domain.dto.DeviceBrandUpdateDto
 import com.xyx.device.domain.po.DeviceBrand
-import com.xyx.device.domain.repository.DeviceBrandRepository
-import com.xyx.device.domain.repository.query
+import com.xyx.device.domain.repository.jpa.DeviceBrandRepository
+import com.xyx.device.domain.repository.jpa.query
 import com.xyx.device.domain.vo.DeviceBrandListVo
 import io.swagger.annotations.Api
 import org.springframework.web.bind.annotation.*

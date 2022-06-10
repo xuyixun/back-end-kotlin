@@ -1,4 +1,4 @@
-package com.xyx.device.domain.repository
+package com.xyx.device.domain.repository.jpa
 
 import com.xyx.common.domain.repository.CommonRepositoryDelete
 import com.xyx.common.domain.repository.CommonRepositoryEnable
@@ -7,7 +7,9 @@ import com.xyx.device.domain.po.DeviceBrand
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
+import org.springframework.stereotype.Repository
 
+@Repository
 interface DeviceBrandRepository : JpaRepository<DeviceBrand, String>, JpaSpecificationExecutor<DeviceBrand>, CommonRepositoryDelete<DeviceBrand, String>, CommonRepositoryEnable<DeviceBrand, String> {
     fun existsByNameAndDeletedFalse(name: String): Boolean
 
