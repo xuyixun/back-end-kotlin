@@ -20,28 +20,28 @@ import org.springframework.web.bind.annotation.*
 @Api(tags = ["设备-设备品牌"])
 @RestController
 @RequestMapping("api/device/device_brand")
-class DeviceBrandController(private val DeviceBrandRepository: DeviceBrandRepository) {
+class DeviceBrandController(private val deviceBrandRepository: DeviceBrandRepository) {
     @GetMapping("v1")
-    fun queryAll(dto: DeviceBrandSearchDto) = returnSuccess(DeviceBrandRepository.query(dto, emptyArray(), arrayOf("name"))
+    fun queryAll(dto: DeviceBrandSearchDto) = returnSuccess(deviceBrandRepository.query(dto, emptyArray(), arrayOf("name"))
         .map { DeviceBrandListVo.vo(it) })
 
     @PostMapping("v1")
     fun save(dto: DeviceBrandSaveDto): Return {
-        if (DeviceBrandRepository.existsByNameAndDeletedFalse(dto.name)) {
+        if (deviceBrandRepository.existsByNameAndDeletedFalse(dto.name)) {
             return returnCode(ErrorCodeDevice.DEVICE_TYPE_001)
         }
-        DeviceBrandRepository.save(DeviceBrand(dto.name))
+        deviceBrandRepository.save(DeviceBrand(dto.name))
         return returnSuccess()
     }
 
     @PutMapping("v1")
     fun update(dto: DeviceBrandUpdateDto): Return {
-        val entityOptional = DeviceBrandRepository.findById(dto.uuid)
+        val entityOptional = deviceBrandRepository.findById(dto.uuid)
         if (entityOptional.isPresent) {
-            if (DeviceBrandRepository.existsByNameAndDeletedFalseAndUuidNot(dto.name, dto.uuid)) {
+            if (deviceBrandRepository.existsByNameAndDeletedFalseAndUuidNot(dto.name, dto.uuid)) {
                 return returnCode(ErrorCodeDevice.DEVICE_TYPE_001)
             }
-            DeviceBrandRepository.save(entityOptional.get()
+            deviceBrandRepository.save(entityOptional.get()
                 .apply { name = dto.name })
             return returnSuccess()
         }
@@ -50,13 +50,13 @@ class DeviceBrandController(private val DeviceBrandRepository: DeviceBrandReposi
 
     @DeleteMapping("v1/{uuid}")
     fun delete(@PathVariable uuid: String): Return {
-        DeviceBrandRepository.deleted(uuid)
+        deviceBrandRepository.deleted(uuid)
         return returnSuccess()
     }
 
     @PostMapping("v1/{uuid}/enable")
     fun enable(@PathVariable uuid: String): Return {
-        DeviceBrandRepository.enable(uuid)
+        deviceBrandRepository.enable(uuid)
         return returnSuccess()
     }
 }

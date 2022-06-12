@@ -7,9 +7,7 @@ import com.xyx.device.domain.po.DeviceBrand
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
-import org.springframework.stereotype.Repository
 
-@Repository
 interface DeviceBrandRepository : JpaRepository<DeviceBrand, String>, JpaSpecificationExecutor<DeviceBrand>, CommonRepositoryDelete<DeviceBrand, String>, CommonRepositoryEnable<DeviceBrand, String> {
     fun existsByNameAndDeletedFalse(name: String): Boolean
 
