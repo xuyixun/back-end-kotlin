@@ -18,7 +18,8 @@ interface ErrorCode {
 
 enum class ErrorCodeCommon(private val errorMsg: String, private val errorMsgZH: String) : ErrorCode {
     COMMON_UNKNOWN("unknown error", "未知错误"),
-    COMMON_UUID_UNKNOWN("uuid unknown", "数据不存在");
+    COMMON_UUID_UNKNOWN("uuid unknown", "数据不存在"),
+    COMMON_PARAMS_ERROR("params error", "参数错误");
 
     override fun errorMsg(): String = errorMsg
     override fun errorMsgZH(): String = errorMsgZH

@@ -25,4 +25,8 @@ dependencies {
 
     implementation("io.springfox:springfox-boot-starter:$springfoxVersion")
     runtimeOnly("mysql:mysql-connector-java")
+    runtimeOnly("dev.miku:r2dbc-mysql:0.8.2.RELEASE")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("io.projectreactor:reactor-test")
 }

@@ -27,6 +27,9 @@ class DeviceTypeController(private val deviceTypeRepository: DeviceTypeRepositor
 
     @PostMapping("v1")
     fun save(dto: DeviceTypeSaveDto): Return {
+        if (dto.check()) {
+            return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
+        }
         if (deviceTypeRepository.existsByNameAndDeletedFalse(dto.name)) {
             return returnCode(ErrorCodeDevice.DEVICE_TYPE_001)
         }
@@ -36,6 +39,9 @@ class DeviceTypeController(private val deviceTypeRepository: DeviceTypeRepositor
 
     @PutMapping("v1")
     fun update(dto: DeviceTypeUpdateDto): Return {
+        if (dto.check()) {
+            return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
+        }
         val entityOptional = deviceTypeRepository.findById(dto.uuid)
         if (entityOptional.isPresent) {
             if (deviceTypeRepository.existsByNameAndDeletedFalseAndUuidNot(dto.name, dto.uuid)) {

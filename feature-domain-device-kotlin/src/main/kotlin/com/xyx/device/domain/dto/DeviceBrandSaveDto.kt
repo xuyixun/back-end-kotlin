@@ -1,3 +1,7 @@
 package com.xyx.device.domain.dto
 
-data class DeviceBrandSaveDto(val name: String)
+import com.google.common.base.Strings
+
+data class DeviceBrandSaveDto(val name: String) {
+    fun check() = Strings.isNullOrEmpty(name)
+}

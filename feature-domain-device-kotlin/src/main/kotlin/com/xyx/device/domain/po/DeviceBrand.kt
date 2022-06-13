@@ -7,4 +7,8 @@ import javax.persistence.Entity
 @Entity
 data class DeviceBrand(var name: String) : CommonPoDeleted(), CommonPoEnabled {
     override var enabled: Boolean = false
+
+    companion object {
+        fun create(uuid: String) = DeviceBrand("").apply { this.uuid = uuid }
+    }
 }

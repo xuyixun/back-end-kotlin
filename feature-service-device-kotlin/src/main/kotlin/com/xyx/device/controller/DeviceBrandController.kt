@@ -27,6 +27,9 @@ class DeviceBrandController(private val deviceBrandRepository: DeviceBrandReposi
 
     @PostMapping("v1")
     fun save(dto: DeviceBrandSaveDto): Return {
+        if (dto.check()) {
+            return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
+        }
         if (deviceBrandRepository.existsByNameAndDeletedFalse(dto.name)) {
             return returnCode(ErrorCodeDevice.DEVICE_TYPE_001)
         }
@@ -36,6 +39,9 @@ class DeviceBrandController(private val deviceBrandRepository: DeviceBrandReposi
 
     @PutMapping("v1")
     fun update(dto: DeviceBrandUpdateDto): Return {
+        if (dto.check()) {
+            return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
+        }
         val entityOptional = deviceBrandRepository.findById(dto.uuid)
         if (entityOptional.isPresent) {
             if (deviceBrandRepository.existsByNameAndDeletedFalseAndUuidNot(dto.name, dto.uuid)) {
