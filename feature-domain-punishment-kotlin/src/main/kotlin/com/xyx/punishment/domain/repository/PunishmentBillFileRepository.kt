@@ -1,0 +1,12 @@
+package com.xyx.punishment.domain.repository
+
+import com.xyx.punishment.domain.po.PunishmentBillFile
+import org.springframework.data.jpa.repository.JpaRepository
+
+interface PunishmentBillFileRepository : JpaRepository<PunishmentBillFile, String> {
+    fun deleteByPunishmentBillUuidAndCommonFileUuid(uuid: String, fileUuid: String)
+
+    fun deleteByPunishmentBillUuid(uuid: String)
+
+    fun existsByPunishmentBillUuidAndCommonFileUuid(uuid: String, fileUuid: String):Boolean
+}

@@ -2,7 +2,7 @@ package com.xyx.device.domain.repository.jpa
 
 import com.xyx.common.domain.repository.CommonRepositoryDelete
 import com.xyx.common.domain.repository.CommonRepositoryEnable
-import com.xyx.device.domain.dto.DeviceBrandSearchDto
+import com.xyx.device.domain.dto.search.DeviceBrandSearchDto
 import com.xyx.device.domain.po.DeviceBrand
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.JpaRepository

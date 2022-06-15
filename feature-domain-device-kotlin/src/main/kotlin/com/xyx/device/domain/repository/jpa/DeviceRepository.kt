@@ -1,7 +1,7 @@
 package com.xyx.device.domain.repository.jpa
 
 import com.xyx.common.domain.repository.CommonRepositoryEnable
-import com.xyx.device.domain.dto.DeviceSearchDto
+import com.xyx.device.domain.dto.search.DeviceSearchDto
 import com.xyx.device.domain.po.Device
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest

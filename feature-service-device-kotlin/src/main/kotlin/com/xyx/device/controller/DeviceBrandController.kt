@@ -8,7 +8,7 @@ import com.xyx.common.func.returnCode
 import com.xyx.common.func.returnSuccess
 import com.xyx.device.constant.ErrorCodeDevice
 import com.xyx.device.domain.dto.DeviceBrandSaveDto
-import com.xyx.device.domain.dto.DeviceBrandSearchDto
+import com.xyx.device.domain.dto.search.DeviceBrandSearchDto
 import com.xyx.device.domain.dto.DeviceBrandUpdateDto
 import com.xyx.device.domain.po.DeviceBrand
 import com.xyx.device.domain.repository.jpa.DeviceBrandRepository

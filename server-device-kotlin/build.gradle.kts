@@ -1,7 +1,7 @@
 plugins {
     kotlin("plugin.spring")
 }
-group = "com.example"
+group = "com.xyx"
 version = "0.0.1-SNAPSHOT"
 dependencies {
     val springfoxVersion = "3.0.0"

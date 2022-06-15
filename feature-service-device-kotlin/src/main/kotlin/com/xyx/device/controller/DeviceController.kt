@@ -7,7 +7,7 @@ import com.xyx.common.func.returnCode
 import com.xyx.common.func.returnSuccess
 import com.xyx.device.constant.ErrorCodeDevice
 import com.xyx.device.domain.dto.DeviceSaveDto
-import com.xyx.device.domain.dto.DeviceSearchDto
+import com.xyx.device.domain.dto.search.DeviceSearchDto
 import com.xyx.device.domain.dto.DeviceUpdateDto
 import com.xyx.device.domain.po.Device
 import com.xyx.device.domain.po.DeviceBrand

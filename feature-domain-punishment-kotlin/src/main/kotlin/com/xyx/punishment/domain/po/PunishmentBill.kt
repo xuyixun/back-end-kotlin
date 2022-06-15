@@ -1,11 +1,11 @@
 package com.xyx.punishment.domain.po
 
-import org.hibernate.annotations.CreationTimestamp
-import org.hibernate.annotations.GenericGenerator
+import com.xyx.common.domain.po.CommonPo
+import java.math.BigDecimal
 import java.time.LocalDateTime
 import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 
 @Entity
 data class PunishmentBill(
@@ -13,17 +13,20 @@ data class PunishmentBill(
     val longitude: String,
     val latitude: String,
     val time: LocalDateTime,
-    val type: PunishmentBillType,
-    val mode: PunishmentBillMode,
-    @Id @GeneratedValue(generator = "uuid") @GenericGenerator(name = "uuid", strategy = "uuid2") var uuid: String = "",
-    @CreationTimestamp val createTime: LocalDateTime = LocalDateTime.now()
-)
+    @Enumerated(EnumType.STRING) val type: PunishmentBillType,
+    @Enumerated(EnumType.STRING) val mode: PunishmentBillMode,
+    val amount: BigDecimal? = null
+) : CommonPo() {
+    companion object {
+        fun create(uuid: String) = PunishmentBill("", "", "", LocalDateTime.now(), PunishmentBillType.FISHING, PunishmentBillMode.FINE).apply { this.uuid = uuid }
+    }
+}
 
 enum class PunishmentBillType {
-    fishing
+    FISHING
 }
 
 
 enum class PunishmentBillMode {
-    fine
+    FINE
 }
