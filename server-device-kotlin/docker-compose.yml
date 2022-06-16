@@ -7,7 +7,7 @@ services:
       - base
     environment:
       TZ: Asia/Shanghai
-      MYSQL_DATABASE: iot_test
+      MYSQL_DATABASE: iot_dev
       MYSQL_ROOT_PASSWORD: 135246xyx
     volumes:
       - mysql-data:/var/lib/mysql

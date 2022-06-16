@@ -1,0 +1,33 @@
+services:
+  mysql:
+    image: mysql:latest
+    ports:
+      - 19373:3306
+    networks:
+      - base
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_DATABASE: punishment_dev
+      MYSQL_ROOT_PASSWORD: 135246xyx
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    security_opt:
+      - seccomp:unconfined
+  punishment-dev:
+    build:
+      context: git@github.com:xuyixun/back-end-kotlin.git#test
+      dockerfile: server-punishment-kotlin/Dockerfile
+    networks:
+      - base
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - TZ=Asia/Shanghai
+    volumes:
+      - ../../files/punishment:/files
+networks:
+  base:
+    name: base_network
+volumes:
+  mysql-data:
