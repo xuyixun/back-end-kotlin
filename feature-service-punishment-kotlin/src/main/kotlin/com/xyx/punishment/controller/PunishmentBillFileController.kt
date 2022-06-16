@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController
 @Api(tags = ["处罚-处罚单文件"])
 @RestController
 @RequestMapping("api/punishment/punishment_bill_file")
-open class PunishmentBillFileController(private val punishmentBillFileRepository: PunishmentBillFileRepository, private val fileUpload: FileUpload) {
+class PunishmentBillFileController(private val punishmentBillFileRepository: PunishmentBillFileRepository, private val fileUpload: FileUpload) {
     @ApiOperation(value = "预上传-单个")
     @PostMapping(value = ["v1/pre_update"], headers = ["content-type=multipart/form-data"])
     fun updatePre(dto: FilePreUpdateDto): Return {

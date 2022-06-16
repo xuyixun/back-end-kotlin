@@ -8,10 +8,10 @@ object JacksonFun {
 
     fun toJson(value: Any): String? {
         try {
-            return OBJECT_MAPPER.writeValueAsString(value);
+            return OBJECT_MAPPER.writeValueAsString(value)
         } catch (e: JsonProcessingException) {
-            e.printStackTrace();
+            e.printStackTrace()
         }
-        return null;
+        return null
     }
 }

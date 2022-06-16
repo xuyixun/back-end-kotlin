@@ -15,10 +15,13 @@ data class PunishmentBill(
     val time: LocalDateTime,
     @Enumerated(EnumType.STRING) val type: PunishmentBillType,
     @Enumerated(EnumType.STRING) val mode: PunishmentBillMode,
-    val amount: BigDecimal? = null
+    val amount: BigDecimal?,
+    val offenderName: String?,
+    val offenderIdCard: String?,
+    val offenderPhoneNumber: String?
 ) : CommonPo() {
     companion object {
-        fun create(uuid: String) = PunishmentBill("", "", "", LocalDateTime.now(), PunishmentBillType.FISHING, PunishmentBillMode.FINE).apply { this.uuid = uuid }
+        fun create(uuid: String) = PunishmentBill("", "", "", LocalDateTime.now(), PunishmentBillType.FISHING, PunishmentBillMode.FINE, null, null, null, null).apply { this.uuid = uuid }
     }
 }
 
