@@ -25,7 +25,7 @@ services:
       - SPRING_PROFILES_ACTIVE=dev
       - TZ=Asia/Shanghai
     volumes:
-      - ../../files/punishment:/files
+      - ../../files/punishment_dev:/files
 networks:
   base:
     name: base_network
