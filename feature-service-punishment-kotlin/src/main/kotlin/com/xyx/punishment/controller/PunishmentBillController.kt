@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter
 
 @Api(tags = ["处罚-处罚单"])
 @RestController
-@RequestMapping("api/punishment/punishment_bill")
+@RequestMapping("api/punishment_bill")
 class PunishmentBillController(private val punishmentBillRepository: PunishmentBillRepository, private val punishmentBillFileRepository: PunishmentBillFileRepository) {
     @GetMapping("v1")
     fun queryAll(dto: PunishmentBillSearchDto) = returnSuccess(punishmentBillRepository.query(dto, emptyArray(), emptyArray())

@@ -11,4 +11,6 @@ dependencies {
     compileOnly("org.springframework.data:spring-data-jpa")
     compileOnly("org.springframework.security:spring-security-core")
     compileOnly("io.swagger:swagger-annotations:1.6.5")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 }

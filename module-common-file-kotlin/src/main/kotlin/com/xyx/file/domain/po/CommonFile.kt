@@ -1,7 +1,7 @@
 package com.xyx.file.domain.po
 
 import com.xyx.common.domain.po.CommonPo
-import javax.persistence.Entity
+import javax.persistence.*
 
 @Entity
 data class CommonFile(
@@ -9,9 +9,17 @@ data class CommonFile(
     val size: Int,
     val sha256: String,
     val suffix: String,
-    val path: String
+    @Enumerated(EnumType.STRING) val type: CommonFileType,
+    val path: String,
+    val watermarkImg: Boolean = false,
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn val originalImg: CommonFile? = null
 ) : CommonPo() {
     companion object {
-        fun create(uuid: String) = CommonFile("", 0, "", "", "").apply { this.uuid = uuid }
+        fun create(uuid: String) = CommonFile("", 0, "", "", CommonFileType.IMAGE, "").apply { this.uuid = uuid }
     }
+}
+
+enum class CommonFileType {
+    IMAGE,
+    VIDEO
 }
