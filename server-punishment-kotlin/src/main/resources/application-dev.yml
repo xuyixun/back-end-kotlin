@@ -32,6 +32,13 @@ spring:
     host: redis-dev
     port: 6379
     password: redis_xyx_001
+  rabbitmq:
+    host: 124.70.159.170
+    port: 4734
+    username: wkmq
+    password: wefin0234n02349
+    #消息确认模式（关闭事务模式）
+    publisher-confirm-type: correlated
 #actuator
 management:
   endpoint:

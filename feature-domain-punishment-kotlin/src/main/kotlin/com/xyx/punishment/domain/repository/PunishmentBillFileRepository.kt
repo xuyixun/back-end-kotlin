@@ -14,5 +14,5 @@ interface PunishmentBillFileRepository : JpaRepository<PunishmentBillFile, Strin
 
     fun findByPunishmentBillUuid(uuid: String, sort: Sort): Set<PunishmentBillFile>
 
-    fun findByPunishmentBillUuidAndCommonFileType(uuid: String, type: CommonFileType, sort: Sort): Set<PunishmentBillFile>
+    fun findByPunishmentBillUuidAndCommonFileTypeAndWatermarkImgFalse(uuid: String, type: CommonFileType, sort: Sort): Set<PunishmentBillFile>
 }

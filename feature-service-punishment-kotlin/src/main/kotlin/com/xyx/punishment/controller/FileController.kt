@@ -5,7 +5,6 @@ import com.xyx.common.func.Return
 import com.xyx.common.func.returnCode
 import com.xyx.common.func.returnSuccess
 import com.xyx.file.func.FileUpload
-import com.xyx.punishment.constant.ErrorCodePunishment
 import com.xyx.punishment.domain.dto.FilePreUpdateArrayDto
 import com.xyx.punishment.domain.dto.FilePreUpdateDto
 import io.swagger.annotations.Api
@@ -24,10 +23,11 @@ class FileController(private val fileUpload: FileUpload) {
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }
-        val commonFile = fileUpload.update(
-            dto.file!!.inputStream, dto.file.originalFilename!!, dto.type
-        ) ?: return returnCode(ErrorCodePunishment.UPLOAD_001)
-        return returnSuccess(commonFile.uuid)
+        return returnSuccess(
+            fileUpload.update(
+                dto.file!!.inputStream, dto.file.originalFilename!!, dto.type
+            ).uuid
+        )
     }
 
     @ApiOperation(value = "预上传-批量")
@@ -38,8 +38,7 @@ class FileController(private val fileUpload: FileUpload) {
         }
         val uuidSet = arrayListOf<String>()
         for (v in dto.file!!) {
-            val commonFile = this.fileUpload.update(v.inputStream, v.originalFilename!!, dto.type) ?: return returnCode(ErrorCodePunishment.UPLOAD_001)
-            uuidSet.add(commonFile.uuid)
+            uuidSet.add(this.fileUpload.update(v.inputStream, v.originalFilename!!, dto.type).uuid)
         }
         return returnSuccess(uuidSet)
     }

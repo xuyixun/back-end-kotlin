@@ -19,17 +19,8 @@ import javax.imageio.ImageIO
 
 @Component
 class WatermarkFunc(private val commonFileRepository: CommonFileRepository) {
-    fun text(uuid: String, vararg textArray: String): CommonFile? {
-        val fo = commonFileRepository.findById(uuid)
-        if (fo.isEmpty) {
-            return null
-        }
-        val originalFile = fo.get()
-        val originalFileInputStream = FileInputStream(originalFile.path)
-        val image = text(ImageIO.read(originalFileInputStream), *textArray)
-        val byteArray = image.toByteArray()
-        originalFileInputStream.close()
-        image.close()
+    fun text(originalFile: CommonFile, vararg textArray: String): CommonFile {
+        val byteArray = text(FileInputStream(originalFile.path).use { ImageIO.read(it) }, *textArray).use { it.toByteArray() }
         val sha256 = Sha256Tool.sha256(byteArray)
         val p = path(sha256)
         Files.createDirectories(p.parent)
@@ -43,7 +34,7 @@ class WatermarkFunc(private val commonFileRepository: CommonFileRepository) {
         val watermarkImg = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
         watermarkImg.createGraphics()
             .apply {
-                val fontSize = 16
+                val fontSize = 18
                 drawImage(targetImg, 0, 0, width, height, null)
                 color = Color.RED
                 font = Font("宋体", Font.BOLD, fontSize)

@@ -13,12 +13,16 @@ import com.xyx.punishment.domain.dto.FileRelationDto
 import com.xyx.punishment.domain.po.PunishmentBill
 import com.xyx.punishment.domain.po.PunishmentBillFile
 import com.xyx.punishment.domain.repository.PunishmentBillFileRepository
+import com.xyx.punishment.rabbitmq.RabbitMqService
+import com.xyx.punishment.rabbitmq.RabbitMqService.Companion.RABBITMQ_EXCHANGE_PUNISHMENT_BILL_FILE_WATERMARK
+import com.xyx.punishment.rabbitmq.RabbitMqService.Companion.RABBITMQ_KEY_COMMON
+import com.xyx.punishment.rabbitmq.RabbitMqService.Companion.RABBITMQ_QUEUE_PUNISHMENT_BILL_FILE_WATERMARK
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import org.springframework.amqp.rabbit.annotation.Exchange
+import org.springframework.amqp.rabbit.annotation.Queue
+import org.springframework.amqp.rabbit.annotation.QueueBinding
+import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.data.domain.Sort
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
@@ -27,7 +31,7 @@ import java.time.format.DateTimeFormatter
 @Api(tags = ["处罚-处罚单文件"])
 @RestController
 @RequestMapping("api/punishment_bill_file")
-class PunishmentBillFileController(private val punishmentBillFileRepository: PunishmentBillFileRepository, private val watermarkFunc: WatermarkFunc) {
+class PunishmentBillFileController(private val punishmentBillFileRepository: PunishmentBillFileRepository, private val rabbitMqService: RabbitMqService, private val watermarkFunc: WatermarkFunc) {
     @Transactional
     @ApiOperation(value = "项目图片关联删除-单个")
     @DeleteMapping(value = ["v1/delete"])
@@ -66,51 +70,21 @@ class PunishmentBillFileController(private val punishmentBillFileRepository: Pun
                 )
             }
         }
+        rabbitMqService.punishmentBillFileWatermark(dto.uuid)
         return returnSuccess()
     }
 
-    @PostMapping(value = ["v1/watermark/{uuid}"])
-    suspend fun watermark(@PathVariable uuid: String): String {
-        punishmentBillFileRepository.findByPunishmentBillUuidAndCommonFileType(uuid, CommonFileType.IMAGE, Sort.by("createTime"))
+    fun watermark(@PathVariable uuid: String) {
+        punishmentBillFileRepository.findByPunishmentBillUuidAndCommonFileTypeAndWatermarkImgFalse(uuid, CommonFileType.IMAGE, Sort.by("createTime"))
             .forEach {
-                watermarkFunc.text(
-                    it.commonFile.uuid, "${it.punishmentBill.longitude},${it.punishmentBill.latitude}", it.punishmentBill.time.format(DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
+                val s = watermarkFunc.text(
+                    it.commonFile, "${it.punishmentBill.longitude},${it.punishmentBill.latitude}", it.punishmentBill.time.format(DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
                 )
+                val t = it.apply {
+                    commonFile = s
+                    watermarkImg = true
+                }
+                this.punishmentBillFileRepository.save(t)
             }
-        return "success"
-    }
-
-    @GetMapping("test001")
-    suspend fun test001(): String {
-        repeat(10) {
-            delay(1000)
-            println(it)
-        }
-        return "success"
-    }
-
-    @GetMapping("test002")
-    suspend fun test002(): String = coroutineScope {
-        repeat(10) {
-            launch {
-                delay(1000)
-                println(it)
-            }
-        }
-        "success"
-    }
-
-
-    @GetMapping("test003")
-    suspend fun test003(): String = coroutineScope {
-        val channel = Channel<Int>()
-        launch {
-            repeat(10) {
-                delay(1000)
-                channel.send(it)
-            }
-        }
-        repeat(10) { println(channel.receive()) }
-        "success"
     }
 }

@@ -9,5 +9,5 @@ import javax.persistence.ManyToOne
 
 @Entity
 data class PunishmentBillFile(
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn val punishmentBill: PunishmentBill, @ManyToOne(fetch = FetchType.LAZY) @JoinColumn val commonFile: CommonFile
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn val punishmentBill: PunishmentBill, @ManyToOne(fetch = FetchType.LAZY) @JoinColumn var commonFile: CommonFile, var watermarkImg: Boolean = false
 ) : CommonPo()

@@ -10,7 +10,8 @@ dependencies {
     compileOnly("org.springframework:spring-web")
     compileOnly("org.springframework.data:spring-data-jpa")
     compileOnly("org.springframework.security:spring-security-core")
+    compileOnly("org.springframework.amqp:spring-rabbit")
     compileOnly("io.swagger:swagger-annotations:1.6.5")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+    compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 }

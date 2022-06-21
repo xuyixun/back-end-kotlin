@@ -5,7 +5,6 @@ import com.xyx.file.domain.po.CommonFile
 import com.xyx.file.domain.po.CommonFileType
 import com.xyx.file.domain.repository.CommonFileRepository
 import org.springframework.stereotype.Component
-import java.io.IOException
 import java.io.InputStream
 import java.nio.file.Files
 import java.nio.file.Path
@@ -17,24 +16,19 @@ import java.util.*
 
 @Component
 class FileUpload(private val commonFileRepository: CommonFileRepository) {
-    fun update(fileSteam: InputStream, originalFilename: String, type: CommonFileType): CommonFile? {
-        try {
-            val byteArray = fileSteam.readAllBytes()
-            fileSteam.close()
-            val sha256 = Sha256Tool.sha256(byteArray)
-            val commonFileOptional = this.commonFileRepository.findBySha256(sha256)
-            if (commonFileOptional.isPresent) {
-                return commonFileOptional.get()
-            }
+    fun update(fileSteam: InputStream, originalFilename: String, type: CommonFileType): CommonFile {
+        val byteArray = fileSteam.use { it.readAllBytes() }
+        val sha256 = Sha256Tool.sha256(byteArray)
+        val commonFileOptional = this.commonFileRepository.findBySha256(sha256)
+        return if (commonFileOptional.isPresent) {
+            commonFileOptional.get()
+        } else {
             val suffix = suffix(originalFilename)
             val p = path(sha256, suffix)
             Files.createDirectories(p.parent)
             Files.write(p, byteArray, StandardOpenOption.CREATE)
-            return commonFileRepository.save(CommonFile(originalFilename, byteArray.size, sha256, suffix, type, p.toString()))
-        } catch (e: IOException) {
-            e.printStackTrace()
+            commonFileRepository.save(CommonFile(originalFilename, byteArray.size, sha256, suffix, type, p.toString()))
         }
-        return null
     }
 
     private fun suffix(originalFilename: String): String = originalFilename.substring(originalFilename.lastIndexOf("."))
