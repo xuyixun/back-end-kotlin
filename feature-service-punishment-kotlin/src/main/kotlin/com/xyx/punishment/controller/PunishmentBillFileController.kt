@@ -54,7 +54,6 @@ class PunishmentBillFileController(private val punishmentBillFileRepository: Pun
         return returnSuccess()
     }
 
-    @Transactional
     @ApiOperation(value = "预上传关联项目")
     @PostMapping(value = ["v1/relation"])
     fun relationItemSf(dto: FileRelationDto): Return {
@@ -74,17 +73,20 @@ class PunishmentBillFileController(private val punishmentBillFileRepository: Pun
         return returnSuccess()
     }
 
+    @RabbitListener(
+        bindings = [QueueBinding(
+            value = Queue(name = RABBITMQ_QUEUE_PUNISHMENT_BILL_FILE_WATERMARK),
+            exchange = Exchange(name = RABBITMQ_EXCHANGE_PUNISHMENT_BILL_FILE_WATERMARK),
+            key = [RABBITMQ_KEY_COMMON]
+        )]
+    )
     fun watermark(@PathVariable uuid: String) {
         punishmentBillFileRepository.findByPunishmentBillUuidAndCommonFileTypeAndWatermarkImgFalse(uuid, CommonFileType.IMAGE, Sort.by("createTime"))
             .forEach {
                 val s = watermarkFunc.text(
                     it.commonFile, "${it.punishmentBill.longitude},${it.punishmentBill.latitude}", it.punishmentBill.time.format(DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss"))
                 )
-                val t = it.apply {
-                    commonFile = s
-                    watermarkImg = true
-                }
-                this.punishmentBillFileRepository.save(t)
+                this.punishmentBillFileRepository.updateWatermark(it.uuid, s)
             }
     }
 }

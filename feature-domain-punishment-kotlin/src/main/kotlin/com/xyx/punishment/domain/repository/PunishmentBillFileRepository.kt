@@ -1,9 +1,13 @@
 package com.xyx.punishment.domain.repository
 
+import com.xyx.file.domain.po.CommonFile
 import com.xyx.file.domain.po.CommonFileType
 import com.xyx.punishment.domain.po.PunishmentBillFile
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
+import org.springframework.data.jpa.repository.Query
+import org.springframework.transaction.annotation.Transactional
 
 interface PunishmentBillFileRepository : JpaRepository<PunishmentBillFile, String> {
     fun deleteByPunishmentBillUuidAndCommonFileUuid(uuid: String, fileUuid: String)
@@ -15,4 +19,9 @@ interface PunishmentBillFileRepository : JpaRepository<PunishmentBillFile, Strin
     fun findByPunishmentBillUuid(uuid: String, sort: Sort): Set<PunishmentBillFile>
 
     fun findByPunishmentBillUuidAndCommonFileTypeAndWatermarkImgFalse(uuid: String, type: CommonFileType, sort: Sort): Set<PunishmentBillFile>
+
+    @Transactional
+    @Modifying
+    @Query("update PunishmentBillFile set watermarkImg = true,commonFile = ?2 where uuid = ?1")
+    fun updateWatermark(uuid: String, fileUuid: CommonFile)
 }
