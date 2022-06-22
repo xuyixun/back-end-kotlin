@@ -74,11 +74,7 @@ class PunishmentBillFileController(private val punishmentBillFileRepository: Pun
         return returnSuccess()
     }
 
-    @RabbitListener(
-        bindings = [QueueBinding(
-            value = Queue(name = RABBITMQ_QUEUE_PUNISHMENT_BILL_FILE_WATERMARK), exchange = Exchange(name = RABBITMQ_EXCHANGE_PUNISHMENT_BILL_FILE_WATERMARK), key = [RABBITMQ_KEY_COMMON]
-        )]
-    )
+
     fun watermark(@PathVariable uuid: String) {
         punishmentBillFileRepository.findById(uuid)
             .ifPresent {
