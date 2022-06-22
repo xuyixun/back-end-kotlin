@@ -1,6 +1,6 @@
 package com.xyx.file.func
 
-import com.xyx.common.func.Sha256Tool
+import com.xyx.common.func.Sha256Func
 import com.xyx.file.domain.po.CommonFile
 import com.xyx.file.domain.po.CommonFileType
 import com.xyx.file.domain.repository.CommonFileRepository
@@ -16,9 +16,9 @@ import java.util.*
 
 @Component
 class FileUpload(private val commonFileRepository: CommonFileRepository) {
-    fun update(fileSteam: InputStream, originalFilename: String, type: CommonFileType): CommonFile {
+    fun upload(fileSteam: InputStream, originalFilename: String, type: CommonFileType): CommonFile {
         val byteArray = fileSteam.use { it.readAllBytes() }
-        val sha256 = Sha256Tool.sha256(byteArray)
+        val sha256 = Sha256Func.sha256(byteArray)
         val commonFileOptional = this.commonFileRepository.findBySha256(sha256)
         return if (commonFileOptional.isPresent) {
             commonFileOptional.get()

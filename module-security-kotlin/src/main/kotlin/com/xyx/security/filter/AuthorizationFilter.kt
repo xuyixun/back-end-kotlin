@@ -3,7 +3,7 @@ package com.xyx.security.filter
 import com.google.common.base.Strings
 import com.xyx.security.constant.ConfigJwt
 import com.xyx.security.exception.TokenMatchCacheAuthException
-import com.xyx.security.func.JwtFun
+import com.xyx.security.func.JwtFunc
 import com.xyx.security.token.UserSecurityAuthenticationToken
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
@@ -14,16 +14,16 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @Component
-class AuthorizationFilter(private val jwtFun: JwtFun) : OncePerRequestFilter() {
+class AuthorizationFilter(private val jwtFunc: JwtFunc) : OncePerRequestFilter() {
     override fun doFilterInternal(
         request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain
     ) {
         val tokenHeader = request.getHeader(ConfigJwt.tokenHeader)
         if (!Strings.isNullOrEmpty(tokenHeader) && tokenHeader.startsWith(ConfigJwt.tokenPrefix)) {
             val tokenBase = tokenHeader.replace(ConfigJwt.tokenPrefix, "")
-            val body = jwtFun.decode(tokenBase).body
+            val body = jwtFunc.decode(tokenBase).body
             val subject = body.subject
-            if ((ConfigJwt.tokenPrefix + tokenBase) == jwtFun.cacheTokenUserUuid(subject)) {
+            if ((ConfigJwt.tokenPrefix + tokenBase) == jwtFunc.cacheTokenUserUuid(subject)) {
                 if (body["version"] == ConfigJwt.tokenVersion1) {
                     val roles = body["roles"]
                     SecurityContextHolder.getContext().authentication = UserSecurityAuthenticationToken(subject,

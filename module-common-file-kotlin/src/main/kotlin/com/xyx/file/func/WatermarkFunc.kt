@@ -1,6 +1,6 @@
 package com.xyx.file.func
 
-import com.xyx.common.func.Sha256Tool
+import com.xyx.common.func.Sha256Func
 import com.xyx.file.domain.po.CommonFile
 import com.xyx.file.domain.repository.CommonFileRepository
 import org.springframework.stereotype.Component
@@ -21,7 +21,7 @@ import javax.imageio.ImageIO
 class WatermarkFunc(private val commonFileRepository: CommonFileRepository) {
     fun text(originalFile: CommonFile, vararg textArray: String): CommonFile {
         val byteArray = text(FileInputStream(originalFile.path).use { ImageIO.read(it) }, *textArray).use { it.toByteArray() }
-        val sha256 = Sha256Tool.sha256(byteArray)
+        val sha256 = Sha256Func.sha256(byteArray)
         val p = path(sha256)
         Files.createDirectories(p.parent)
         Files.write(p, byteArray, StandardOpenOption.CREATE)

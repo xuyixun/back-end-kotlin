@@ -11,6 +11,7 @@ data class Return(
 
 fun returnSuccess() = Return("0", "success", "调用成功", null)
 fun returnSuccess(data: Any) = Return("0", "", "", data)
+fun returnCode(errorCode: ErrorCode) = Return(errorCode.toString(), errorCode.errorMsg(), errorCode.errorMsgZH(), null)
 interface ErrorCode {
     fun errorMsg(): String
     fun errorMsgZH(): String
@@ -24,5 +25,3 @@ enum class ErrorCodeCommon(private val errorMsg: String, private val errorMsgZH:
     override fun errorMsg(): String = errorMsg
     override fun errorMsgZH(): String = errorMsgZH
 }
-
-fun returnCode(errorCode: ErrorCode) = Return(errorCode.toString(), errorCode.errorMsg(), errorCode.errorMsgZH(), null)

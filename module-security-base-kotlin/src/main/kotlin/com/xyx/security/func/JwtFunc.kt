@@ -17,7 +17,7 @@ import java.time.ZoneId
 import java.util.*
 
 @Component
-open class JwtFun {
+open class JwtFunc {
     private fun generateKey(): Key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(ConfigJwt.secret))
     fun decode(token: String): Jws<Claims> {
         return try {

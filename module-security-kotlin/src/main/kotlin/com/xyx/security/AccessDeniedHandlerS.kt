@@ -1,6 +1,6 @@
 package com.xyx.security
 
-import com.xyx.common.func.JacksonFun
+import com.xyx.common.func.JacksonFunc
 import com.xyx.common.func.returnCode
 import com.xyx.security.constant.ErrorCodeSecurity
 import org.springframework.security.access.AccessDeniedException
@@ -14,7 +14,7 @@ object AccessDeniedHandlerS : AccessDeniedHandler {
         response.apply {
             setHeader("content-type", "application/json;charset=UTF-8")
             status = SC_FORBIDDEN
-            writer.print(JacksonFun.toJson(returnCode(ErrorCodeSecurity.SECURITY_005)))
+            writer.print(JacksonFunc.toJson(returnCode(ErrorCodeSecurity.SECURITY_005)))
         }
     }
 }

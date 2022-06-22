@@ -1,7 +1,7 @@
 package com.xyx.security
 
 import com.xyx.common.func.ErrorCodeCommon
-import com.xyx.common.func.JacksonFun
+import com.xyx.common.func.JacksonFunc
 import com.xyx.common.func.returnCode
 import com.xyx.security.constant.ErrorCodeSecurity
 import com.xyx.security.exception.JwtExpiredException
@@ -21,11 +21,11 @@ object AuthenticationEntryPointS : AuthenticationEntryPoint {
             response.setHeader("content-type", "application/json;charset=UTF-8")
             response.status = SC_UNAUTHORIZED
             when (authException) {
-                is InsufficientAuthenticationException -> response.writer.print(JacksonFun.toJson(returnCode(ErrorCodeSecurity.SECURITY_001)))
-                is JwtParseFailException -> response.writer.print(JacksonFun.toJson(returnCode(ErrorCodeSecurity.SECURITY_002)))
-                is JwtExpiredException -> response.writer.print(JacksonFun.toJson(returnCode(ErrorCodeSecurity.SECURITY_003)))
-                is TokenMatchCacheAuthException -> response.writer.print(JacksonFun.toJson(returnCode(ErrorCodeSecurity.SECURITY_004)))
-                else -> response.writer.print(JacksonFun.toJson(returnCode(ErrorCodeCommon.COMMON_UNKNOWN)))
+                is InsufficientAuthenticationException -> response.writer.print(JacksonFunc.toJson(returnCode(ErrorCodeSecurity.SECURITY_001)))
+                is JwtParseFailException -> response.writer.print(JacksonFunc.toJson(returnCode(ErrorCodeSecurity.SECURITY_002)))
+                is JwtExpiredException -> response.writer.print(JacksonFunc.toJson(returnCode(ErrorCodeSecurity.SECURITY_003)))
+                is TokenMatchCacheAuthException -> response.writer.print(JacksonFunc.toJson(returnCode(ErrorCodeSecurity.SECURITY_004)))
+                else -> response.writer.print(JacksonFunc.toJson(returnCode(ErrorCodeCommon.COMMON_UNKNOWN)))
             }
         }
     }
