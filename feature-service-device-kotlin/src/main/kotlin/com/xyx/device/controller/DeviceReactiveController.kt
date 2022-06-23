@@ -1,6 +1,6 @@
 package com.xyx.device.controller
 
-import com.xyx.device.domain.repository.reactive.DeviceReactiveRepository
+import com.xyx.device.domain.repository_reactive.DeviceReactiveRepository
 import io.swagger.annotations.Api
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType

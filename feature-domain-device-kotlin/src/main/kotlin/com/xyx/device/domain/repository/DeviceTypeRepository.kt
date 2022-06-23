@@ -1,4 +1,4 @@
-package com.xyx.device.domain.repository.jpa
+package com.xyx.device.domain.repository
 
 import com.xyx.common.domain.repository.CommonRepositoryDelete
 import com.xyx.common.domain.repository.CommonRepositoryEnable

@@ -7,12 +7,12 @@ import com.xyx.common.func.Return
 import com.xyx.common.func.returnCode
 import com.xyx.common.func.returnSuccess
 import com.xyx.device.constant.ErrorCodeDevice
-import com.xyx.device.domain.dto.DeviceBrandSaveDto
-import com.xyx.device.domain.dto.search.DeviceBrandSearchDto
+import com.xyx.device.domain.dto.save.DeviceBrandSaveDto
 import com.xyx.device.domain.dto.DeviceBrandUpdateDto
+import com.xyx.device.domain.dto.search.DeviceBrandSearchDto
 import com.xyx.device.domain.po.DeviceBrand
-import com.xyx.device.domain.repository.jpa.DeviceBrandRepository
-import com.xyx.device.domain.repository.jpa.query
+import com.xyx.device.domain.repository.DeviceBrandRepository
+import com.xyx.device.domain.repository.query
 import com.xyx.device.domain.vo.DeviceBrandListVo
 import io.swagger.annotations.Api
 import org.springframework.web.bind.annotation.*
@@ -30,10 +30,10 @@ class DeviceBrandController(private val deviceBrandRepository: DeviceBrandReposi
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }
-        if (deviceBrandRepository.existsByNameAndDeletedFalse(dto.name)) {
+        if (deviceBrandRepository.existsByNameAndDeletedFalse(dto.name!!)) {
             return returnCode(ErrorCodeDevice.DEVICE_TYPE_001)
         }
-        deviceBrandRepository.save(DeviceBrand(dto.name))
+        deviceBrandRepository.save(DeviceBrand(dto.name!!))
         return returnSuccess()
     }
 
@@ -42,13 +42,13 @@ class DeviceBrandController(private val deviceBrandRepository: DeviceBrandReposi
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }
-        val entityOptional = deviceBrandRepository.findById(dto.uuid)
+        val entityOptional = deviceBrandRepository.findById(dto.uuid!!)
         if (entityOptional.isPresent) {
-            if (deviceBrandRepository.existsByNameAndDeletedFalseAndUuidNot(dto.name, dto.uuid)) {
+            if (deviceBrandRepository.existsByNameAndDeletedFalseAndUuidNot(dto.name!!, dto.uuid!!)) {
                 return returnCode(ErrorCodeDevice.DEVICE_TYPE_001)
             }
             deviceBrandRepository.save(entityOptional.get()
-                .apply { name = dto.name })
+                .apply { name = dto.name!! })
             return returnSuccess()
         }
         return returnCode(ErrorCodeCommon.COMMON_UUID_UNKNOWN)

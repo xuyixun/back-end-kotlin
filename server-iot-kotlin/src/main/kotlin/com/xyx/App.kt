@@ -10,8 +10,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 @SpringBootApplication
 @EnableSwagger2
 @EnableCaching
-@EnableR2dbcRepositories("**.repository.reactive")
-@EnableJpaRepositories("**.repository.jpa")
+@EnableR2dbcRepositories("**.repository_reactive")
+@EnableJpaRepositories("**.repository")
 class App
 
 fun main(args: Array<String>) {

@@ -1,5 +1,6 @@
-package com.xyx.device.domain.repository.jpa
+package com.xyx.device.domain.repository
 
+import com.xyx.common.domain.repository.CommonRepositoryDelete
 import com.xyx.common.domain.repository.CommonRepositoryEnable
 import com.xyx.device.domain.dto.search.DeviceSearchDto
 import com.xyx.device.domain.po.Device
@@ -9,7 +10,7 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 
-interface DeviceRepository : JpaRepository<Device, String>, JpaSpecificationExecutor<Device>, CommonRepositoryEnable<Device, String> {
+interface DeviceRepository : JpaRepository<Device, String>, JpaSpecificationExecutor<Device>, CommonRepositoryDelete<Device, String>, CommonRepositoryEnable<Device, String> {
     fun existsByUidAndDeletedFalse(name: String): Boolean
 
     fun existsByUidAndDeletedFalseAndUuidNot(name: String, uuid: String): Boolean
