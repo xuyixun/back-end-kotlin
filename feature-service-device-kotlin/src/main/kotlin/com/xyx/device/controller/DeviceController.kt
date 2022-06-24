@@ -24,13 +24,13 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("api/device/device")
 class DeviceController(private val deviceRepository: DeviceRepository) {
     @GetMapping("v1")
-    fun queryAll(dto: DeviceSearchDto) =
+    fun queryAll(@RequestBody dto: DeviceSearchDto) =
         returnSuccess(
             deviceRepository.query(dto, emptyArray(), emptyArray())
                 .map { DeviceListVo.vo(it) })
 
     @PostMapping("v1")
-    fun save(dto: DeviceSaveDto): Return {
+    fun save(@RequestBody dto: DeviceSaveDto): Return {
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }
@@ -42,7 +42,7 @@ class DeviceController(private val deviceRepository: DeviceRepository) {
     }
 
     @PutMapping("v1")
-    fun update(dto: DeviceUpdateDto): Return {
+    fun update(@RequestBody dto: DeviceUpdateDto): Return {
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }

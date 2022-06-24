@@ -25,7 +25,7 @@ class FileController(private val fileUpload: FileUpload) {
         }
         return returnSuccess(
             fileUpload.upload(
-                dto.file!!.inputStream, dto.file.originalFilename!!, dto.type
+                dto.file!!.inputStream, dto.file.originalFilename!!
             ).uuid
         )
     }
@@ -38,7 +38,7 @@ class FileController(private val fileUpload: FileUpload) {
         }
         val uuidSet = arrayListOf<String>()
         for (v in dto.file!!) {
-            fileUpload.upload(v.inputStream, v.originalFilename!!, dto.type)
+            fileUpload.upload(v.inputStream, v.originalFilename!!)
                 .apply {
                     uuidSet.add(uuid)
                 }

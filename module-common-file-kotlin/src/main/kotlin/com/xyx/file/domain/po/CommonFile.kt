@@ -21,5 +21,6 @@ data class CommonFile(
 
 enum class CommonFileType {
     IMAGE,
-    VIDEO
+    VIDEO,
+    OTHER
 }

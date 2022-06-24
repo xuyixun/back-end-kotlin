@@ -6,6 +6,7 @@ dependencies {
     implementation(project(":module-common-file-kotlin"))
     compileOnly("org.springframework.data:spring-data-jpa")
     compileOnly("org.springframework.data:spring-data-r2dbc")
+    compileOnly("org.springframework:spring-web")
     compileOnly("org.hibernate:hibernate-core")
     compileOnly("io.swagger:swagger-annotations:1.6.5")
 }

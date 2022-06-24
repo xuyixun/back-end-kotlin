@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("api/device/device_type")
 class DeviceTypeController(private val deviceTypeRepository: DeviceTypeRepository) {
     @GetMapping("v1")
-    fun queryAll(dto: DeviceTypeSearchDto) = returnSuccess(deviceTypeRepository.query(dto, emptyArray(), arrayOf("name"))
+    fun queryAll(@RequestBody dto: DeviceTypeSearchDto) = returnSuccess(deviceTypeRepository.query(dto, emptyArray(), arrayOf("name"))
         .map { DeviceTypeListVo.vo(it) })
 
     @PostMapping("v1")
-    fun save(dto: DeviceTypeSaveDto): Return {
+    fun save(@RequestBody dto: DeviceTypeSaveDto): Return {
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }
@@ -38,7 +38,7 @@ class DeviceTypeController(private val deviceTypeRepository: DeviceTypeRepositor
     }
 
     @PutMapping("v1")
-    fun update(dto: DeviceTypeUpdateDto): Return {
+    fun update(@RequestBody dto: DeviceTypeUpdateDto): Return {
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }

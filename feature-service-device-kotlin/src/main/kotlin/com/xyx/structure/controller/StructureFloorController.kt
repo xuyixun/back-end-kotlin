@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("api/structure/structure_floor")
 class StructureFloorController(private val structureFloorRepository: StructureFloorRepository) {
     @PostMapping("v1")
-    fun save(dto: StructureFloorSaveDto): Return {
+    fun save(@RequestBody dto: StructureFloorSaveDto): Return {
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }
@@ -28,7 +28,7 @@ class StructureFloorController(private val structureFloorRepository: StructureFl
     }
 
     @PutMapping("v1")
-    fun update(dto: StructureFloorUpdateDto): Return {
+    fun update(@RequestBody dto: StructureFloorUpdateDto): Return {
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }
