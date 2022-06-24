@@ -34,10 +34,10 @@ class DeviceController(private val deviceRepository: DeviceRepository) {
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }
-        if (deviceRepository.existsByUidAndDeletedFalse(dto.uid!!)) {
+        if (deviceRepository.existsByUidAndDeletedFalse(dto.uid)) {
             return returnCode(ErrorCodeDevice.DEVICE_001)
         }
-        deviceRepository.save(Device(dto.uid!!, DeviceType.create(dto.deviceTypeUuid!!), DeviceBrand.create(dto.deviceBrandUuid!!)))
+        deviceRepository.save(Device(dto.uid, DeviceType.create(dto.deviceTypeUuid), DeviceBrand.create(dto.deviceBrandUuid)))
         return returnSuccess()
     }
 
@@ -46,14 +46,14 @@ class DeviceController(private val deviceRepository: DeviceRepository) {
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }
-        val entityOptional = deviceRepository.findById(dto.uuid!!)
+        val entityOptional = deviceRepository.findById(dto.uuid)
         if (entityOptional.isPresent) {
-            if (deviceRepository.existsByUidAndDeletedFalseAndUuidNot(dto.uid!!, dto.uuid!!)) {
+            if (deviceRepository.existsByUidAndDeletedFalseAndUuidNot(dto.uid, dto.uuid)) {
                 return returnCode(ErrorCodeDevice.DEVICE_001)
             }
             deviceRepository.save(
                 entityOptional.get()
-                    .apply { uid = dto.uid!! })
+                    .apply { uid = dto.uid })
             return returnSuccess()
         }
         return returnCode(ErrorCodeCommon.COMMON_UUID_UNKNOWN)

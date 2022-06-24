@@ -10,6 +10,7 @@ import com.xyx.structure.domain.dto.StructureSaveDto
 import com.xyx.structure.domain.dto.StructureSearchDto
 import com.xyx.structure.domain.dto.StructureUpdateDto
 import com.xyx.structure.domain.po.Structure
+import com.xyx.structure.domain.repository.StructureFloorRepository
 import com.xyx.structure.domain.repository.StructureRepository
 import com.xyx.structure.domain.repository.query
 import com.xyx.structure.domain.vo.StructureListVo
@@ -19,20 +20,19 @@ import org.springframework.web.bind.annotation.*
 @Api(tags = ["建筑区域-建筑区域"])
 @RestController
 @RequestMapping("api/structure/structure")
-class StructureController(private val structureRepository: StructureRepository) {
+class StructureController(private val structureRepository: StructureRepository, private val structureFloorRepository: StructureFloorRepository) {
     @GetMapping("v1")
     fun queryAll(dto: StructureSearchDto) =
         returnSuccess(
             structureRepository.query(dto, emptyArray(), emptyArray())
                 .map { StructureListVo.vo(it) })
 
-
     @PostMapping("v1")
     fun save(dto: StructureSaveDto): Return {
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }
-        structureRepository.save(Structure(dto.name!!, dto.longitude!!, dto.latitude!!))
+        structureRepository.save(Structure(dto.name, dto.longitude, dto.latitude))
         return returnSuccess()
     }
 
@@ -41,14 +41,14 @@ class StructureController(private val structureRepository: StructureRepository) 
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }
-        val entityOptional = structureRepository.findById(dto.uuid!!)
+        val entityOptional = structureRepository.findById(dto.uuid)
         if (entityOptional.isPresent) {
             structureRepository.save(
                 entityOptional.get()
                     .apply {
-                        name = dto.name!!
-                        longitude = dto.longitude!!
-                        latitude = dto.latitude!!
+                        name = dto.name
+                        longitude = dto.longitude
+                        latitude = dto.latitude
                     })
             return returnSuccess()
         }

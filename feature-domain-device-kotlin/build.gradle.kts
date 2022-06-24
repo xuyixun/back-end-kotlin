@@ -3,6 +3,7 @@ plugins {
 }
 dependencies {
     implementation(project(":module-common-kotlin"))
+    implementation(project(":module-common-file-kotlin"))
     compileOnly("org.springframework.data:spring-data-jpa")
     compileOnly("org.springframework.data:spring-data-r2dbc")
     compileOnly("org.hibernate:hibernate-core")

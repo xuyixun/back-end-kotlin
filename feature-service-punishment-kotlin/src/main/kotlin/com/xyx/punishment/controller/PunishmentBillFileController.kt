@@ -33,7 +33,7 @@ class PunishmentBillFileController(private val punishmentBillFileRepository: Pun
     @Transactional
     @ApiOperation(value = "项目图片关联删除-单个")
     @DeleteMapping(value = ["v1/delete"])
-    fun delete(dto: FileDeleteDto): Return {
+    fun delete(@RequestBody dto: FileDeleteDto): Return {
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }
@@ -44,7 +44,7 @@ class PunishmentBillFileController(private val punishmentBillFileRepository: Pun
     @Transactional
     @ApiOperation(value = "项目图片关联删除-所有")
     @DeleteMapping(value = ["v1/delete_all"])
-    fun deleteAll(dto: FileDeleteAllDto): Return {
+    fun deleteAll(@RequestBody dto: FileDeleteAllDto): Return {
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }
@@ -54,7 +54,7 @@ class PunishmentBillFileController(private val punishmentBillFileRepository: Pun
 
     @ApiOperation(value = "预上传关联项目")
     @PostMapping(value = ["v1/relation"])
-    fun relationItemSf(dto: FileRelationDto): Return {
+    fun relationItemSf(@RequestBody dto: FileRelationDto): Return {
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }

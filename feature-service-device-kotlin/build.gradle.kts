@@ -1,5 +1,6 @@
 dependencies {
     implementation(project(":module-common-kotlin"))
+    implementation(project(":module-common-file-kotlin"))
     implementation(project(":module-security-base-kotlin"))
     implementation(project(":feature-domain-device-kotlin"))
     compileOnly("org.springframework:spring-web")

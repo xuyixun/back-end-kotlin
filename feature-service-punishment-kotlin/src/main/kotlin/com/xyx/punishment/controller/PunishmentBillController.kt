@@ -1,6 +1,8 @@
 package com.xyx.punishment.controller
 
+import com.xyx.common.func.ErrorCodeCommon
 import com.xyx.common.func.Return
+import com.xyx.common.func.returnCode
 import com.xyx.common.func.returnSuccess
 import com.xyx.punishment.domain.dto.PunishmentBillSaveDto
 import com.xyx.punishment.domain.dto.PunishmentBillSearchDto
@@ -24,22 +26,27 @@ class PunishmentBillController(private val punishmentBillRepository: PunishmentB
         .map { PunishmentBillListVo.vo(it) })
 
     @PostMapping("v1")
-    fun save(dto: PunishmentBillSaveDto): Return = returnSuccess(
-        punishmentBillRepository.save(
-            PunishmentBill(
-                dto.name,
-                dto.longitude,
-                dto.latitude,
-                LocalDateTime.parse(dto.time, DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss")),
-                dto.type,
-                dto.mode,
-                dto.amount,
-                dto.offenderName,
-                dto.offenderIdCard,
-                dto.offenderPhoneNumber
-            )
-        ).uuid
-    )
+    fun save(@RequestBody dto: PunishmentBillSaveDto): Return {
+        if (dto.check()) {
+            return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
+        }
+        return returnSuccess(
+            punishmentBillRepository.save(
+                PunishmentBill(
+                    dto.name,
+                    dto.longitude,
+                    dto.latitude,
+                    LocalDateTime.parse(dto.time, DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss")),
+                    dto.type!!,
+                    dto.mode!!,
+                    dto.amount,
+                    dto.offenderName,
+                    dto.offenderIdCard,
+                    dto.offenderPhoneNumber
+                )
+            ).uuid
+        )
+    }
 
     @GetMapping("v1/{uuid}")
     fun detail(@PathVariable uuid: String): Return {

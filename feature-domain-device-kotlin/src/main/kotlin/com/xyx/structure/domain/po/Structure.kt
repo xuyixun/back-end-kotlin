@@ -13,4 +13,8 @@ data class Structure(
     override var deleted: Boolean = false
     override var deletedTime: LocalDateTime? = null
     override var enabled: Boolean = false
+
+    companion object {
+        fun create(uuid: String) = Structure("", "", "").apply { this.uuid = uuid }
+    }
 }
