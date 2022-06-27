@@ -21,7 +21,7 @@ fun DeviceBrandRepository.query(dto: DeviceBrandSearchDto, d: Array<String>, a: 
         if (!com.google.common.base.Strings.isNullOrEmpty(dto.name)) {
             expressions.add(cb.like(root.get("name"), "%" + (dto.name) + "%"))
         }
-        if (!dto.showDisabled) {
+        if (dto.hideDisabled) {
             expressions.add(cb.isTrue(root.get("enabled")))
         }
         expressions.add(cb.isFalse(root.get("deleted")))

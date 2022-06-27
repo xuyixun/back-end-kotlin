@@ -23,6 +23,9 @@ fun DeviceRepository.query(dto: DeviceSearchDto, d: Array<String>, a: Array<Stri
         if (!com.google.common.base.Strings.isNullOrEmpty(dto.uid)) {
             expressions.add(cb.like(root.get("uid"), "%" + (dto.uid) + "%"))
         }
+        if (dto.hideDisabled) {
+            expressions.add(cb.isTrue(root.get("enabled")))
+        }
         expressions.add(cb.isFalse(root.get("deleted")))
         predicate
     }, PageRequest.of(

@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("api/structure/structure")
 class StructureController(private val structureRepository: StructureRepository, private val structureFloorRepository: StructureFloorRepository) {
     @GetMapping("v1")
-    fun queryAll(@RequestBody dto: StructureSearchDto) = returnSuccess(structureRepository.query(dto, emptyArray(), emptyArray())
+    fun queryAll(dto: StructureSearchDto) = returnSuccess(structureRepository.query(dto, emptyArray(), emptyArray())
         .map { StructureListVo.vo(it) })
 
     @PostMapping("v1")

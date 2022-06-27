@@ -16,7 +16,8 @@ data class PunishmentBillSaveDto(
     @ApiModelProperty(value = "罚款金额", example = "0") val amount: BigDecimal?,
     @ApiModelProperty(value = "违法者姓名") val offenderName: String?,
     val offenderIdCard: String?,
-    val offenderPhoneNumber: String?
+    val offenderPhoneNumber: String?,
+    val fileUUid: Set<String>?
 ) {
     fun check() = Strings.isNullOrEmpty(name) || Strings.isNullOrEmpty(longitude) || Strings.isNullOrEmpty(latitude) || Strings.isNullOrEmpty(time) || type == null || mode == null
 }

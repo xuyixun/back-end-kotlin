@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("api/device/device")
 class DeviceController(private val deviceRepository: DeviceRepository) {
     @GetMapping("v1")
-    fun queryAll(@RequestBody dto: DeviceSearchDto) =
+    fun queryAll(dto: DeviceSearchDto) =
         returnSuccess(
             deviceRepository.query(dto, emptyArray(), emptyArray())
                 .map { DeviceListVo.vo(it) })

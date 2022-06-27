@@ -52,26 +52,30 @@ class PunishmentBillFileController(private val punishmentBillFileRepository: Pun
         return returnSuccess()
     }
 
-    @ApiOperation(value = "预上传关联项目")
+    @ApiOperation(value = "上传文件关联")
     @PostMapping(value = ["v1/relation"])
-    fun relationItemSf(@RequestBody dto: FileRelationDto): Return {
+    fun relation(@RequestBody dto: FileRelationDto): Return {
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }
-        dto.fileUUid.forEach { v ->
-            if (punishmentBillFileRepository.existsByPunishmentBillUuidAndCommonFileUuidAndWatermarkImgFalse(dto.uuid, v)
-                    .not() && punishmentBillFileRepository.existsByPunishmentBillUuidAndCommonFileOriginalImgUuidAndWatermarkImgTrue(dto.uuid, v)
+        relation(dto.uuid, dto.fileUUid!!)
+        return returnSuccess()
+    }
+
+    fun relation(uuidS: String, fileUUid: Set<String>) {
+        fileUUid.forEach { v ->
+            if (punishmentBillFileRepository.existsByPunishmentBillUuidAndCommonFileUuidAndWatermarkImgFalse(uuidS, v)
+                    .not() && punishmentBillFileRepository.existsByPunishmentBillUuidAndCommonFileOriginalImgUuidAndWatermarkImgTrue(uuidS, v)
                     .not()
             ) {
                 this.punishmentBillFileRepository.save(
-                    PunishmentBillFile(PunishmentBill.create(dto.uuid), CommonFile.create(v))
+                    PunishmentBillFile(PunishmentBill.create(uuidS), CommonFile.create(v))
                 )
                     .apply {
                         rabbitMqService.punishmentBillFileWatermark(uuid)
                     }
             }
         }
-        return returnSuccess()
     }
 
     @RabbitListener(

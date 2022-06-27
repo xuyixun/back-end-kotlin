@@ -33,12 +33,13 @@ class FileUpload(private val commonFileRepository: CommonFileRepository) {
 
     private fun suffix(originalFilename: String): String = originalFilename.substring(originalFilename.lastIndexOf("."))
         .lowercase(Locale.ROOT)
+        .substring(1)
 
     private fun path(name: String, suffix: String): Path = Paths.get(
         "files",
         LocalDate.now()
             .format(DateTimeFormatter.BASIC_ISO_DATE),
-        name + suffix
+        "$name.$suffix"
     )
 
     private fun checkType(suffix: String): CommonFileType = when (suffix) {

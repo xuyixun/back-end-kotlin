@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("api/device/device_brand")
 class DeviceBrandController(private val deviceBrandRepository: DeviceBrandRepository) {
     @GetMapping("v1")
-    fun queryAll(@RequestBody dto: DeviceBrandSearchDto) = returnSuccess(deviceBrandRepository.query(dto, emptyArray(), arrayOf("name"))
+    fun queryAll(dto: DeviceBrandSearchDto) = returnSuccess(deviceBrandRepository.query(dto, emptyArray(), arrayOf("name"))
         .map { DeviceBrandListVo.vo(it) })
 
     @PostMapping("v1")

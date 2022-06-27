@@ -20,7 +20,11 @@ import java.time.format.DateTimeFormatter
 @Api(tags = ["处罚-处罚单"])
 @RestController
 @RequestMapping("api/punishment_bill")
-class PunishmentBillController(private val punishmentBillRepository: PunishmentBillRepository, private val punishmentBillFileRepository: PunishmentBillFileRepository) {
+class PunishmentBillController(
+    private val punishmentBillRepository: PunishmentBillRepository,
+    private val punishmentBillFileRepository: PunishmentBillFileRepository,
+    private val punishmentBillFileController: PunishmentBillFileController
+) {
     @GetMapping("v1")
     fun queryAll(dto: PunishmentBillSearchDto) = returnSuccess(punishmentBillRepository.query(dto, emptyArray(), emptyArray())
         .map { PunishmentBillListVo.vo(it) })
@@ -44,7 +48,12 @@ class PunishmentBillController(private val punishmentBillRepository: PunishmentB
                     dto.offenderIdCard,
                     dto.offenderPhoneNumber
                 )
-            ).uuid
+            )
+                .apply {
+                    if (dto.fileUUid != null) {
+                        punishmentBillFileController.relation(uuid, dto.fileUUid!!)
+                    }
+                }.uuid
         )
     }
 

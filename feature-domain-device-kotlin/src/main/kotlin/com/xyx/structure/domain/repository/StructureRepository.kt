@@ -19,6 +19,9 @@ fun StructureRepository.query(dto: StructureSearchDto, d: Array<String>, a: Arra
         if (!com.google.common.base.Strings.isNullOrEmpty(dto.name)) {
             expressions.add(cb.like(root.get("uid"), "%" + (dto.name) + "%"))
         }
+        if (dto.hideDisabled) {
+            expressions.add(cb.isTrue(root.get("enabled")))
+        }
         expressions.add(cb.isFalse(root.get("deleted")))
         predicate
     }, PageRequest.of(
