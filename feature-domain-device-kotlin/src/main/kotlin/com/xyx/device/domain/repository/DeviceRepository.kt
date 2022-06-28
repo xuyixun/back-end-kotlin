@@ -1,5 +1,6 @@
 package com.xyx.device.domain.repository
 
+import com.google.common.base.Strings
 import com.xyx.common.domain.repository.CommonRepositoryDelete
 import com.xyx.common.domain.repository.CommonRepositoryEnable
 import com.xyx.device.domain.dto.search.DeviceSearchDto
@@ -20,7 +21,7 @@ fun DeviceRepository.query(dto: DeviceSearchDto, d: Array<String>, a: Array<Stri
     { root, _, cb ->
         val predicate = cb.conjunction()
         val expressions = predicate.expressions
-        if (!com.google.common.base.Strings.isNullOrEmpty(dto.uid)) {
+        if (!Strings.isNullOrEmpty(dto.uid)) {
             expressions.add(cb.like(root.get("uid"), "%" + (dto.uid) + "%"))
         }
         if (dto.hideDisabled) {

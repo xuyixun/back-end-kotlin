@@ -8,8 +8,8 @@ import com.xyx.common.func.Return
 import com.xyx.common.func.returnCode
 import com.xyx.common.func.returnSuccess
 import com.xyx.file.domain.po.CommonFile
-import com.xyx.structure.domain.dto.StructureSaveDto
-import com.xyx.structure.domain.dto.StructureSearchDto
+import com.xyx.structure.domain.dto.save.StructureSaveDto
+import com.xyx.structure.domain.dto.search.StructureSearchDto
 import com.xyx.structure.domain.dto.StructureUpdateDto
 import com.xyx.structure.domain.po.Structure
 import com.xyx.structure.domain.po.StructureFloor

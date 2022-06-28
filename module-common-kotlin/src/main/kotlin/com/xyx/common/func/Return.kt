@@ -10,7 +10,7 @@ data class Return(
 )
 
 fun returnSuccess() = Return("0", "success", "调用成功", null)
-fun returnSuccess(data: Any) = Return("0", "", "", data)
+fun returnSuccess(data: Any) = Return("0", "success", "调用成功", data)
 fun returnCode(errorCode: ErrorCode) = Return(errorCode.toString(), errorCode.errorMsg(), errorCode.errorMsgZH(), null)
 interface ErrorCode {
     fun errorMsg(): String

@@ -12,10 +12,14 @@ import javax.persistence.ManyToOne
 @Entity
 data class Device(
     var uid: String,
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn var deviceType: DeviceType?,
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn var deviceBrand: DeviceBrand?
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn var type: DeviceType,
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn var brand: DeviceBrand
 ) : CommonPo(), CommonPoDeleted, CommonPoEnabled {
     override var deleted: Boolean = false
     override var deletedTime: LocalDateTime? = null
     override var enabled: Boolean = false
+
+    companion object {
+        fun create(uuid: String) = Device("", DeviceType.create(), DeviceBrand.create()).apply { this.uuid = uuid }
+    }
 }

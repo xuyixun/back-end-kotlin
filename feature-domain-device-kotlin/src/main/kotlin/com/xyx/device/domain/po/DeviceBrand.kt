@@ -14,5 +14,6 @@ data class DeviceBrand(var name: String) : CommonPo(), CommonPoDeleted, CommonPo
 
     companion object {
         fun create(uuid: String) = DeviceBrand("").apply { this.uuid = uuid }
+        fun create() = DeviceBrand("")
     }
 }

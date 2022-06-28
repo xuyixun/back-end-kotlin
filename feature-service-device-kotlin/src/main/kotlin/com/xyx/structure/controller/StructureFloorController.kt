@@ -8,8 +8,8 @@ import com.xyx.common.func.returnCode
 import com.xyx.common.func.returnSuccess
 import com.xyx.file.domain.po.CommonFile
 import com.xyx.structure.constant.ErrorCodeStructure
-import com.xyx.structure.domain.dto.StructureFloorSaveDto
-import com.xyx.structure.domain.dto.StructureFloorSearchDto
+import com.xyx.structure.domain.dto.save.StructureFloorSaveDto
+import com.xyx.structure.domain.dto.search.StructureFloorSearchDto
 import com.xyx.structure.domain.dto.StructureFloorUpdateDto
 import com.xyx.structure.domain.po.Structure
 import com.xyx.structure.domain.po.StructureFloor
@@ -19,7 +19,7 @@ import com.xyx.structure.domain.vo.StructureFloorListVo
 import io.swagger.annotations.Api
 import org.springframework.web.bind.annotation.*
 
-@Api(tags = ["建筑区域-建筑区域楼层"])
+@Api(tags = ["建筑区域-楼层"])
 @RestController
 @RequestMapping("api/structure/structure_floor")
 class StructureFloorController(private val structureFloorRepository: StructureFloorRepository) {
@@ -34,7 +34,7 @@ class StructureFloorController(private val structureFloorRepository: StructureFl
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }
         if (structureFloorRepository.existsByNumber(dto.number)) {
-            return returnCode(ErrorCodeStructure.STRUCTURE_001)
+            return returnCode(ErrorCodeStructure.STRUCTURE_FLOOR_001)
         }
         structureFloorRepository.save(
             StructureFloor(
@@ -50,7 +50,7 @@ class StructureFloorController(private val structureFloorRepository: StructureFl
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }
         if (structureFloorRepository.existsByNumberAndUuidNot(dto.number, dto.uuid)) {
-            return returnCode(ErrorCodeStructure.STRUCTURE_001)
+            return returnCode(ErrorCodeStructure.STRUCTURE_FLOOR_001)
         }
         val entityOptional = structureFloorRepository.findById(dto.uuid)
         if (entityOptional.isPresent) {

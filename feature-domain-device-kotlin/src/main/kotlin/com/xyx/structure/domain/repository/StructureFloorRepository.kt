@@ -1,7 +1,7 @@
 package com.xyx.structure.domain.repository
 
 import com.xyx.common.domain.repository.CommonRepositoryDelete
-import com.xyx.structure.domain.dto.StructureFloorSearchDto
+import com.xyx.structure.domain.dto.search.StructureFloorSearchDto
 import com.xyx.structure.domain.po.Structure
 import com.xyx.structure.domain.po.StructureFloor
 import org.springframework.data.domain.Sort

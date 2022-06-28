@@ -16,5 +16,6 @@ data class Structure(
 
     companion object {
         fun create(uuid: String) = Structure("", "", "").apply { this.uuid = uuid }
+        fun create() = Structure("", "", "")
     }
 }

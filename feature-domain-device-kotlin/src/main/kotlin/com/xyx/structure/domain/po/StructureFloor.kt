@@ -16,4 +16,8 @@ data class StructureFloor(@ManyToOne(fetch = FetchType.LAZY) @JoinColumn val str
     override var deleted: Boolean = false
     override var deletedTime: LocalDateTime? = null
     override var enabled: Boolean = false
+
+    companion object {
+        fun create(uuid: String) = StructureFloor(Structure.create(), 0, null).apply { this.uuid = uuid }
+    }
 }

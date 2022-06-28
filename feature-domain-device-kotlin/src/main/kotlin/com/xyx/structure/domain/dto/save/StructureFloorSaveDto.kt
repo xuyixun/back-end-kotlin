@@ -1,4 +1,4 @@
-package com.xyx.structure.domain.dto
+package com.xyx.structure.domain.dto.save
 
 import com.google.common.base.Strings
 
