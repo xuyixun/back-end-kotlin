@@ -16,18 +16,19 @@ import com.xyx.device.domain.po.DeviceType
 import com.xyx.device.domain.repository.DeviceRepository
 import com.xyx.device.domain.repository.query
 import com.xyx.device.domain.vo.DeviceListVo
+import com.xyx.structure.domain.repository.StructureFloorDeviceRelationRepository
 import io.swagger.annotations.Api
 import org.springframework.web.bind.annotation.*
 
 @Api(tags = ["设备-设备"])
 @RestController
 @RequestMapping("api/device/device")
-class DeviceController(private val deviceRepository: DeviceRepository) {
+class DeviceController(private val deviceRepository: DeviceRepository, private val structureFloorDeviceRelationRepository: StructureFloorDeviceRelationRepository) {
     @GetMapping("v1")
     fun queryAll(dto: DeviceSearchDto) =
         returnSuccess(
             deviceRepository.query(dto, emptyArray(), emptyArray())
-                .map { DeviceListVo.vo(it) })
+                .map { DeviceListVo.vo(it, structureFloorDeviceRelationRepository) })
 
     @PostMapping("v1")
     fun save(@RequestBody dto: DeviceSaveDto): Return {
@@ -37,7 +38,7 @@ class DeviceController(private val deviceRepository: DeviceRepository) {
         if (deviceRepository.existsByUidAndDeletedFalse(dto.uid)) {
             return returnCode(ErrorCodeDevice.DEVICE_001)
         }
-        deviceRepository.save(Device(dto.uid, DeviceType.create(dto.deviceTypeUuid), DeviceBrand.create(dto.deviceBrandUuid)))
+        deviceRepository.save(Device(dto.uid, DeviceType.create(dto.deviceTypeUuid), DeviceBrand.create(dto.deviceBrandUuid), dto.model))
         return returnSuccess()
     }
 
@@ -53,7 +54,12 @@ class DeviceController(private val deviceRepository: DeviceRepository) {
             }
             deviceRepository.save(
                 entityOptional.get()
-                    .apply { uid = dto.uid })
+                    .apply {
+                        uid = dto.uid
+                        type = DeviceType.create(dto.deviceTypeUuid)
+                        brand = DeviceBrand.create(dto.deviceBrandUuid)
+                        model = dto.model
+                    })
             return returnSuccess()
         }
         return returnCode(ErrorCodeCommon.COMMON_UUID_UNKNOWN)

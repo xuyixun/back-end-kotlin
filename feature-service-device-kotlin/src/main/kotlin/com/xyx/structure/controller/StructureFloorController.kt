@@ -8,11 +8,12 @@ import com.xyx.common.func.returnCode
 import com.xyx.common.func.returnSuccess
 import com.xyx.file.domain.po.CommonFile
 import com.xyx.structure.constant.ErrorCodeStructure
+import com.xyx.structure.domain.dto.StructureFloorUpdateDto
 import com.xyx.structure.domain.dto.save.StructureFloorSaveDto
 import com.xyx.structure.domain.dto.search.StructureFloorSearchDto
-import com.xyx.structure.domain.dto.StructureFloorUpdateDto
 import com.xyx.structure.domain.po.Structure
 import com.xyx.structure.domain.po.StructureFloor
+import com.xyx.structure.domain.repository.StructureFloorDeviceRelationRepository
 import com.xyx.structure.domain.repository.StructureFloorRepository
 import com.xyx.structure.domain.repository.query
 import com.xyx.structure.domain.vo.StructureFloorListVo
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.*
 @Api(tags = ["建筑区域-楼层"])
 @RestController
 @RequestMapping("api/structure/structure_floor")
-class StructureFloorController(private val structureFloorRepository: StructureFloorRepository) {
+class StructureFloorController(private val structureFloorRepository: StructureFloorRepository, private val structureFloorDeviceRelationRepository: StructureFloorDeviceRelationRepository) {
     @GetMapping("v1")
     fun queryAll(dto: StructureFloorSearchDto) = if (dto.check()) returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
     else returnSuccess(structureFloorRepository.query(dto, emptyArray(), arrayOf("number"))
@@ -67,6 +68,7 @@ class StructureFloorController(private val structureFloorRepository: StructureFl
     @DeleteMapping("v1/{uuid}")
     fun delete(@PathVariable uuid: String): Return {
         structureFloorRepository.deleted(uuid)
+        structureFloorDeviceRelationRepository.deleteByStructureFloorUuid(uuid)
         return returnSuccess()
     }
 }

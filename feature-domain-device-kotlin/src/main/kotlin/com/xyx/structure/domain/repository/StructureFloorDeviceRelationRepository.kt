@@ -12,9 +12,22 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
+import org.springframework.data.jpa.repository.Modifying
+import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 interface StructureFloorDeviceRelationRepository : JpaRepository<StructureFloorDeviceRelation, String>, JpaSpecificationExecutor<StructureFloorDeviceRelation> {
-    fun existsByStructureFloorUuidAndDeviceUuid(structureFloorUuid: String, deviceUuid: String): Boolean
+    fun existsByDeviceUuid(deviceUuid: String): Boolean
+
+    fun findByDeviceUuid(deviceUuid: String): Optional<StructureFloorDeviceRelation>
+
+    @Transactional
+    @Modifying
+    fun deleteByDeviceUuid(deviceUuid: String)
+
+    @Transactional
+    @Modifying
+    fun deleteByStructureFloorUuid(deviceUuid: String)
 }
 
 fun StructureFloorDeviceRelationRepository.query(dto: StructureFloorDeviceRelationSearchDto, d: Array<String>, a: Array<String>): Page<StructureFloorDeviceRelation> = this.findAll(

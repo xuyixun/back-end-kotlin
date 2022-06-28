@@ -29,7 +29,7 @@ class StructureFloorDeviceRelationController(private val structureFloorDeviceRel
         if (dto.check()) {
             return returnCode(ErrorCodeCommon.COMMON_PARAMS_ERROR)
         }
-        if (structureFloorDeviceRelationRepository.existsByStructureFloorUuidAndDeviceUuid(dto.structureFloorUuid, dto.deviceUuid)) {
+        if (structureFloorDeviceRelationRepository.existsByDeviceUuid(dto.deviceUuid)) {
             return returnCode(ErrorCodeStructure.STRUCTURE_FLOOR_DEVICE_001)
         }
         structureFloorDeviceRelationRepository.save(
@@ -37,6 +37,12 @@ class StructureFloorDeviceRelationController(private val structureFloorDeviceRel
                 StructureFloor.create(dto.structureFloorUuid), Device.create(dto.deviceUuid), dto.pointX, dto.pointY
             )
         )
+        return returnSuccess()
+    }
+
+    @DeleteMapping("v1/device/{uuid}")
+    fun delete(@PathVariable uuid: String): Return {
+        structureFloorDeviceRelationRepository.deleteByDeviceUuid(uuid)
         return returnSuccess()
     }
 }
