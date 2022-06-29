@@ -26,7 +26,7 @@ class PunishmentBillController(
     private val punishmentBillFileController: PunishmentBillFileController
 ) {
     @GetMapping("v1")
-    fun queryAll(dto: PunishmentBillSearchDto) = returnSuccess(punishmentBillRepository.query(dto, emptyArray(), emptyArray())
+    fun queryAll(dto: PunishmentBillSearchDto) = returnSuccess(punishmentBillRepository.query(dto, arrayOf("time"), emptyArray())
         .map { PunishmentBillListVo.vo(it) })
 
     @PostMapping("v1")
